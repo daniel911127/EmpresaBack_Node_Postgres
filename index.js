@@ -93,10 +93,9 @@ app.get('/cargos', async (req, res) => {
 app.get('/cargos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const cargo = await pool.query(
-      'select * from CARGO where IdCargo=$1',
-      [id]
-    );
+    const cargo = await pool.query('select * from CARGO where IdCargo=$1', [
+      id,
+    ]);
     res.json(cargo.rows[0]);
   } catch (err) {
     console.error(err.message);
@@ -120,10 +119,9 @@ app.put('/cargos/:id', async (req, res) => {
 app.delete('/cargos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const eliminar = await pool.query(
-      'Delete From  CARGO WHERE IdCargo=$1 ',
-      [id]
-    );
+    const eliminar = await pool.query('Delete From  CARGO WHERE IdCargo=$1 ', [
+      id,
+    ]);
     res.json('cargo eliminado');
   } catch (err) {
     console.error(err.message);
@@ -155,10 +153,7 @@ app.get('/sedes', async (req, res) => {
 app.get('/sedes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const sede = await pool.query(
-      'select * from SEDE where IdSede=$1',
-      [id]
-    );
+    const sede = await pool.query('select * from SEDE where IdSede=$1', [id]);
     res.json(sede.rows[0]);
   } catch (err) {
     console.error(err.message);
@@ -182,10 +177,9 @@ app.put('/sedes/:id', async (req, res) => {
 app.delete('/sedes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const eliminar = await pool.query(
-      'Delete From  SEDE WHERE IdSede=$1 ',
-      [id]
-    );
+    const eliminar = await pool.query('Delete From  SEDE WHERE IdSede=$1 ', [
+      id,
+    ]);
     res.json('sede eliminado');
   } catch (err) {
     console.error(err.message);
@@ -195,53 +189,3 @@ app.delete('/sedes/:id', async (req, res) => {
 app.listen(5000, () => {
   console.log('servidor escuchando en el puerto 5000');
 });
-
-// const pool = new Pool(config);
-
-// const getEmpleados = async () => {
-//   try {
-//     const res = await pool.query('select * from EMPLEADO');
-//     console.log(res.rows);
-//     pool.end();
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
-
-// const insertEmpleado = async () => {
-//   try {
-//     const insert =
-//       'insert into EMPLEADO(Nombre,Correo,Telefono,IdCargo,IdSede)values($1,$2,$3,$4,$5)';
-//     const values = ['Miguel Suarez', 'miguel.s@mail.com', '5489762', 2, 1];
-//     const res = await pool.query(insert, values);
-//     console.log(res);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
-
-// const deleteEmpleado = async () => {
-//   try {
-//     const eliminar = 'Delete From  EMPLEADO WHERE IdEmpleado=$1';
-//     const values = [2];
-//     const res = await pool.query(eliminar, values);
-//     console.log(res);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
-// const editEmpleado = async () => {
-//   try {
-//     const actualizar = 'update EMPLEADO SET Nombre=$1,Correo=$2,Telefono=$3,IdCargo=$4,IdSede=$5 Where IdEmpleado=$6  ';
-//     const values = ['Miguel Suarez', 'miguel.suarez@mail.com', '5489762', 2, 1,3];
-//     const res = await pool.query(actualizar, values);
-//     console.log(res);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
-
-// //insertEmpleado();
-// //deleteEmpleado();
-// //editEmpleado();
-// getEmpleados();
