@@ -1,0 +1,17 @@
+name: action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del Repositorio
+      uses: actions/checkout@v2
+
+    - name: Ejecutar Acción
+      run: echo "¡Hola, GitHub Actions!"
