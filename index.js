@@ -8,10 +8,10 @@ app.use(express.json());
 
 app.post('/empleados', async (req, res) => {
   try {
-    const { Nombre, Correo, Telefono, IdCargo, IdSede } = req.body;
+    const { IdEmpleado,Nombre, Correo, Telefono, IdCargo, IdSede } = req.body;
     const newEmpleado = await pool.query(
-      'insert into public."EMPLEADO"(Nombre,Correo,Telefono,IdCargo,IdSede)values($1,$2,$3,$4,$5,$6) returning *',
-      [Nombre, Correo, Telefono, IdCargo, IdSede]
+      'insert into public."EMPLEADO"(IdEmpleado,Nombre,Correo,Telefono,IdCargo,IdSede)values($1,$2,$3,$4,$5,$6) returning *',
+      [IdEmpleado,Nombre, Correo, Telefono, IdCargo, IdSede]
     );
     res.json(newEmpleado.rows[0]);
   } catch (err) {
@@ -70,10 +70,10 @@ app.delete('/empleados/:id', async (req, res) => {
 
 app.post('/cargos', async (req, res) => {
   try {
-    const { Descripcion } = req.body;
+    const {IdCargo, Descripcion } = req.body;
     const newCargo = await pool.query(
-      'insert into CARGO(Descripcion)values($1) returning *',
-      [Descripcion]
+      'insert into public."CARGO"(IdCargo,Descripcion)values($1,$2) returning *',
+      [IdCargo,Descripcion]
     );
     res.json(newCargo.rows[0]);
   } catch (err) {
@@ -83,7 +83,7 @@ app.post('/cargos', async (req, res) => {
 
 app.get('/cargos', async (req, res) => {
   try {
-    const cargos = await pool.query('select * from CARGO');
+    const cargos = await pool.query('select * from public."CARGO"');
     res.json(cargos.rows);
   } catch (err) {
     console.error(err.message);
@@ -93,7 +93,7 @@ app.get('/cargos', async (req, res) => {
 app.get('/cargos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const cargo = await pool.query('select * from CARGO where IdCargo=$1', [
+    const cargo = await pool.query('select * from public."CARGO" where IdCargo=$1', [
       id,
     ]);
     res.json(cargo.rows[0]);
@@ -107,7 +107,7 @@ app.put('/cargos/:id', async (req, res) => {
     const { id } = req.params;
     const { Descripcion } = req.body;
     const actualizar = await pool.query(
-      'update CARGO SET Descripcion=$1 Where IdCargo=$2 ',
+      'update public."CARGO" SET Descripcion=$1 Where IdCargo=$2 ',
       [Descripcion, id]
     );
     res.json('cargo actualizado');
@@ -119,7 +119,7 @@ app.put('/cargos/:id', async (req, res) => {
 app.delete('/cargos/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const eliminar = await pool.query('Delete From  CARGO WHERE IdCargo=$1 ', [
+    const eliminar = await pool.query('Delete From  public."CARGO" WHERE IdCargo=$1 ', [
       id,
     ]);
     res.json('cargo eliminado');
@@ -130,10 +130,10 @@ app.delete('/cargos/:id', async (req, res) => {
 
 app.post('/sedes', async (req, res) => {
   try {
-    const { Descripcion } = req.body;
+    const { IdSede,Descripcion } = req.body;
     const newSede = await pool.query(
-      'insert into SEDE(Descripcion)values($1) returning *',
-      [Descripcion]
+      'insert into public."SEDE"(Descripcion)values($1,$2) returning *',
+      [IdSede,Descripcion]
     );
     res.json(newSede.rows[0]);
   } catch (err) {
@@ -143,7 +143,7 @@ app.post('/sedes', async (req, res) => {
 
 app.get('/sedes', async (req, res) => {
   try {
-    const sedes = await pool.query('select * from SEDE');
+    const sedes = await pool.query('select * from public."SEDE"');
     res.json(sedes.rows);
   } catch (err) {
     console.error(err.message);
@@ -153,7 +153,7 @@ app.get('/sedes', async (req, res) => {
 app.get('/sedes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const sede = await pool.query('select * from SEDE where IdSede=$1', [id]);
+    const sede = await pool.query('select * from public."SEDE" where IdSede=$1', [id]);
     res.json(sede.rows[0]);
   } catch (err) {
     console.error(err.message);
@@ -165,7 +165,7 @@ app.put('/sedes/:id', async (req, res) => {
     const { id } = req.params;
     const { Descripcion } = req.body;
     const actualizar = await pool.query(
-      'update SEDE SET Descripcion=$1 Where IdSede=$2 ',
+      'update public."SEDE" SET Descripcion=$1 Where IdSede=$2 ',
       [Descripcion, id]
     );
     res.json('sede actualizado');
@@ -177,7 +177,7 @@ app.put('/sedes/:id', async (req, res) => {
 app.delete('/sedes/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const eliminar = await pool.query('Delete From  SEDE WHERE IdSede=$1 ', [
+    const eliminar = await pool.query('Delete From  public."SEDE" WHERE IdSede=$1 ', [
       id,
     ]);
     res.json('sede eliminado');
