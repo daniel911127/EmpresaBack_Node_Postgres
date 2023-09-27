@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/api.test.js"
+    "test": "node ./node_modules/mocha/bin/mocha './test/**/*.test.js'"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
     "nodemon": "^3.0.1"
   },
   "mocha": {
-    "timeout": 5000, 
-    "reporter": "spec" 
+    "timeout": 5000,
+    "reporter": "spec"
   }
 }
